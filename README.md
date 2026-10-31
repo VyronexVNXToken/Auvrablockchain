@@ -30,7 +30,7 @@ Selected chain IDs: Testnet `52101` (`0xcb85`) and Mainnet `52100` (`0xcb84`). V
 - `Dockerfile` — reproducible BSC client source build.
 - `docs/NETWORK_PLAN.md` — genesis, testnet and mainnet procedures.
 - `docs/OPERATIONS.md` — validator and RPC security baseline.
-- `docs/VALIDATOR_ONBOARDING.md` — safe consensus/BLS key onboarding for each operator.
+- `docs/VALIDATOR_ONBOARDING.md` — consensus/BLS key onboarding, operator independence and validator-set review.
 - `docs/TESTNET_GENESIS.md` — explicit Auvra testnet genesis generation and node initialization.
 
 ## Build the client
