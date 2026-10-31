@@ -13,7 +13,8 @@ git -C "$DEST" checkout --detach "$BSC_COMMIT"
   cd "$DEST"
   export CGO_CFLAGS="${CGO_CFLAGS:--O -D__BLST_PORTABLE__}"
   export CGO_CFLAGS_ALLOW="${CGO_CFLAGS_ALLOW:--O -D__BLST_PORTABLE__}"
-  go version\n  make geth
+  go version
+  make geth
 )
 echo "Built pinned BSC-derived client: $DEST/build/bin/geth"
 echo "This binary still requires Auvra's generated genesis and validator configuration."
