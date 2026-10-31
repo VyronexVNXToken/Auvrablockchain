@@ -26,4 +26,4 @@ Repository: https://github.com/bnb-chain/bsc-genesis-contract
 9. Publish RPC only after firewall, TLS, rate limits, monitoring and API allowlists are active.
 
 ## Mainnet launch gates
-Mainnet needs its own chain ID and genesis, independent validator keys, disclosed AUR allocation and vesting rules, validator reward/fee/governance policy, upgrade and emergency process, independent audits and a sustained public testnet soak period. Never carry testnet balances or signing keys into mainnet.
+Mainnet uses the selected chain ID `52100` (`0xcb84`) and needs its own genesis and independent validator keys, disclosed AUR allocation and vesting rules, validator reward/fee/governance policy, upgrade and emergency process, independent audits and a sustained public testnet soak period. Never carry testnet balances or signing keys into mainnet.
