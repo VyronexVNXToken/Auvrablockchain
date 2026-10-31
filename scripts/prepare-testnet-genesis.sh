@@ -40,18 +40,37 @@ python3 "$ROOT/scripts/render-genesis-inputs.py" "$WORK" "$CHAIN_ID"
   cp genesis-dev.json "$OUT/genesis.json"
   poetry run python -m scripts.generate recover
 )
-python3 - "$OUT/genesis.json" "$CHAIN_ID" <<'PY'
-import json,sys
-p,expected=sys.argv[1],int(sys.argv[2])
-d=json.load(open(p))
-if d.get("config",{}).get("chainId") != expected:
+python3 - "$OUT/genesis.json" "$CHAIN_ID" "$ROOT/config/validators.testnet.conf" "$ROOT/config/initial-holders.testnet.csv" <<'PY'
+import csv, json, re, sys
+p, expected, validator_path, holders_path = sys.argv[1], int(sys.argv[2]), sys.argv[3], sys.argv[4]
+with open(p) as f:
+    d = json.load(f)
+if d.get("config", {}).get("chainId") != expected:
     raise SystemExit("Generated genesis chainId does not match requested Auvra ID")
-if not d.get("extraData","").startswith("0x") or len(d.get("extraData","")) < 2+64+130:
-    raise SystemExit("Genesis extraData does not contain expected Parlia vanity/validator/seal fields")
-for a in ("0x0000000000000000000000000000000000001000","0x0000000000000000000000000000000000001001","0x0000000000000000000000000000000000001002"):
-    if not d.get("alloc",{}).get(a,{}).get("code"):
-        raise SystemExit(f"Missing Parlia system contract bytecode at {a}")
-print("Genesis structure, chain ID, validator extraData and core system predeploys verified.")
+validators = []
+for raw in open(validator_path):
+    line = raw.strip()
+    if line and not line.startswith("#"):
+        validators.append(line.split(","))
+if len(validators) < 4:
+    raise SystemExit("Generated genesis must include at least four configured validators")
+extra = d.get("extraData", "")
+expected_extra_length = 2 + 64 + (40 * len(validators)) + 130
+if not re.fullmatch(r"0x[0-9a-fA-F]+", extra) or len(extra) != expected_extra_length:
+    raise SystemExit(f"Genesis extraData length does not match {len(validators)} configured Parlia validators")
+alloc = {str(k).lower().removeprefix("0x"): v for k, v in d.get("alloc", {}).items()}
+for a in ("0000000000000000000000000000000000001000", "0000000000000000000000000000000000001001", "0000000000000000000000000000000000001002"):
+    if not alloc.get(a, {}).get("code"):
+        raise SystemExit(f"Missing Parlia system contract bytecode at 0x{a}")
+with open(holders_path, newline="") as f:
+    for row in csv.reader(f):
+        if not row or row[0].strip().startswith("#"):
+            continue
+        address, balance = row[0].strip(), int(row[1].strip())
+        entry = alloc.get(address.lower().removeprefix("0x"))
+        if entry is None or int(entry.get("balance", "0x0"), 16) != balance:
+            raise SystemExit(f"Genesis allocation missing or incorrect for initial holder {address}")
+print(f"Genesis verified: chain ID {expected}, {len(validators)} validators, holder allocations and core system predeploys.")
 PY
 sha256sum "$OUT/genesis.json" | tee "$OUT/genesis.sha256"
 printf '%s\n' "$GENESIS_COMMIT" > "$OUT/genesis-tooling.commit"
