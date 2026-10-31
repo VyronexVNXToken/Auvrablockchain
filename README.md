@@ -33,7 +33,7 @@ Chain IDs, validator set, allocations, block parameters and bootnodes remain to 
 
 ## Build the client
 
-Requires Linux, Git, Go 1.24+, GCC and Make.
+Requires Linux, Git, Go 1.25+, GCC and Make.
 
 ```bash
 export BSC_VERSION=v1.8.1
