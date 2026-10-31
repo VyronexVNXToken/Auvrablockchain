@@ -31,6 +31,7 @@ Selected chain IDs: Testnet `52101` (`0xcb85`) and Mainnet `52100` (`0xcb84`). V
 - `docs/NETWORK_PLAN.md` — genesis, testnet and mainnet procedures.
 - `docs/OPERATIONS.md` — validator and RPC security baseline.
 - `docs/VALIDATOR_ONBOARDING.md` — consensus/BLS key onboarding, operator independence and validator-set review.
+- `docs/VALIDATOR_OPERATOR_ATTESTATION.md` — per-operator independence, key-possession and operations attestation template.
 - `docs/TESTNET_GENESIS.md` — explicit Auvra testnet genesis generation and node initialization.
 
 ## Build the client
