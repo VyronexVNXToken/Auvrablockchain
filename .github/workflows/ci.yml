@@ -14,16 +14,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Validate network metadata (launch gate expected to be pending)
+      - name: Validate scaffold (pending launch config is expected)
         run: |
           set +e
           python3 scripts/validate-network.py
           code=$?
           set -e
           if [ "$code" -ne 2 ] && [ "$code" -ne 0 ]; then exit "$code"; fi
-      - name: Compile Python
-        run: python3 -m py_compile scripts/validate-network.py
-      - name: Check shell syntax
+      - name: Compile Python scripts
+        run: python3 -m py_compile scripts/validate-network.py scripts/render-genesis-inputs.py
+      - name: Check shell scripts
         run: |
           bash -n scripts/bootstrap-upstream.sh
           bash -n scripts/prepare-genesis-tooling.sh
+          bash -n scripts/prepare-testnet-genesis.sh
