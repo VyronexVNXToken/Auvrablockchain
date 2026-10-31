@@ -137,5 +137,6 @@ class ValidatorInputTests(unittest.TestCase):
         )
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("Duplicate initial holder address", result.stderr)
-\nif __name__ == "__main__":
+ 
+if __name__ == "__main__":
     unittest.main()
