@@ -1,0 +1,29 @@
+name: Auvra validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate network metadata (launch gate expected to be pending)
+        run: |
+          set +e
+          python3 scripts/validate-network.py
+          code=$?
+          set -e
+          if [ "$code" -ne 2 ] && [ "$code" -ne 0 ]; then exit "$code"; fi
+      - name: Compile Python
+        run: python3 -m py_compile scripts/validate-network.py
+      - name: Check shell syntax
+        run: |
+          bash -n scripts/bootstrap-upstream.sh
+          bash -n scripts/prepare-genesis-tooling.sh
