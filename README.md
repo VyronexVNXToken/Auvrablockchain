@@ -35,6 +35,7 @@ Selected chain IDs: Testnet `52101` (`0xcb85`) and Mainnet `52100` (`0xcb84`). V
 - `docs/TESTNET_GENESIS.md` — explicit Auvra testnet genesis generation and node initialization.
 - `docs/LOCAL_TESTNET.md` — local testnet identity generation, genesis preparation, node initialization and private RPC startup.
 - `scripts/start-rpc-node.sh` — starts an initialized Auvra full node with loopback-only HTTP/WS RPC by default.
+- `scripts/start-validator-node.sh` — starts a Parlia validator using its own consensus account and a supplied bootnode.
 - `config/node-rpc.env.example` — safe local RPC defaults.
 
 ## Build the client
