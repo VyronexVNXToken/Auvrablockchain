@@ -1,5 +1,5 @@
 # Build from a fixed upstream commit; override only after compatibility review.
-ARG GO_VERSION=1.24
+ARG GO_VERSION=1.25
 FROM golang:${GO_VERSION}-bookworm AS builder
 ARG BSC_COMMIT=947ba1cb1ef05d4a5f71b738113a3d8b4c16f6b7
 RUN apt-get update && apt-get install -y --no-install-recommends git gcc make ca-certificates && rm -rf /var/lib/apt/lists/*
