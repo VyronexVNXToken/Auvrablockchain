@@ -5,12 +5,13 @@ This is a deliberate, explicit genesis workflow. It uses the official BNB Chain 
 ## Required operator inputs
 
 1. The selected Auvra testnet chain ID `52101` (`0xcb85`), pending final collision review, in the supported range 1..65535. The current upstream genesis generator writes a `uint16` BSC system chain ID, so the wrapper enforces that bound.
-2. At least four independent public validator records in `config/validators.testnet.conf`, format:
-   `consensusAddress,feeAddress,bscFeeAddress,votingPower,bLSPublicKeyHex`
+2. At least four independently operated public validator records in `config/validators.testnet.conf`, format:
+   `operatorId,consensusAddress,feeAddress,bscFeeAddress,votingPower,bLSPublicKeyHex`
+   Operator IDs must be distinct; all three EVM address roles must be globally unique; BLS public keys must be unique. Operator IDs are labels, not proof of independent control.
 3. At least one approved faucet/treasury balance in `config/initial-holders.testnet.csv`, format `address,balance_wei`.
 4. A reviewed system-contract protector address.
 
-The files must contain public addresses and BLS public keys only, never private keys. See [validator onboarding](VALIDATOR_ONBOARDING.md).
+The files must contain public addresses, operator labels and BLS public keys only, never private keys. The validator checks detect duplicate IDs/addresses/keys but cannot prove operator independence or key ownership. Obtain separate operator declarations and verify consensus/BLS key possession through a reviewed challenge process. See [validator onboarding](VALIDATOR_ONBOARDING.md).
 
 ## Generate
 
