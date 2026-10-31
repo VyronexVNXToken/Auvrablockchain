@@ -43,7 +43,12 @@ class ValidatorInputTests(unittest.TestCase):
     def test_valid_four_operator_set(self):
         result = self.run_renderer(records())
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue((Path(result.args[2]) / "validators.conf").exists())
+        upstream = Path(result.args[2])
+        self.assertTrue((upstream / "validators.conf").exists())
+        self.assertTrue((upstream / "scripts" / "validators.js").exists())
+        rows = (upstream / "validators.conf").read_text().splitlines()
+        self.assertEqual(len(rows), 4)
+        self.assertTrue(all(len(row.split(",")) == 5 for row in rows))
 
     def test_reject_duplicate_operator_id(self):
         rows = records()
