@@ -106,9 +106,9 @@ class ValidatorInputTests(unittest.TestCase):
         upstream = root / "upstream"
         upstream.mkdir()
         shutil.copy2(SOURCE, root / "scripts" / SOURCE.name)
-        (root / "config" / "validators.testnet.conf").write_text("\\n".join(records()) + "\\n")
+        (root / "config" / "validators.testnet.conf").write_text("\n".join(records()) + "\n")
         (root / "config" / "initial-holders.testnet.csv").write_text(
-            "0x" + "f" * 40 + ",1000000000000000000\\n"
+            "0x" + "f" * 40 + ",1000000000000000000\n"
         )
         result = subprocess.run(
             ["python3", str(root / "scripts" / SOURCE.name), str(upstream), "65536"],
@@ -126,10 +126,10 @@ class ValidatorInputTests(unittest.TestCase):
         upstream = root / "upstream"
         upstream.mkdir()
         shutil.copy2(SOURCE, root / "scripts" / SOURCE.name)
-        (root / "config" / "validators.testnet.conf").write_text("\\n".join(records()) + "\\n")
+        (root / "config" / "validators.testnet.conf").write_text("\n".join(records()) + "\n")
         holder = "0x" + "f" * 40
         (root / "config" / "initial-holders.testnet.csv").write_text(
-            f"{holder},1000000000000000000\\n{holder},2000000000000000000\\n"
+            f"{holder},1000000000000000000\n{holder},2000000000000000000\n"
         )
         result = subprocess.run(
             ["python3", str(root / "scripts" / SOURCE.name), str(upstream), "52101"],
