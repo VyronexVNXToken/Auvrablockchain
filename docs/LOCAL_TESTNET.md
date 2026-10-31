@@ -26,7 +26,7 @@ The script builds the BSC-derived `geth` binary under `.build/bsc/build/bin/geth
 
 ## 2. Generate test-only validator identities
 
-For an experimental single-host testnet, create four separate node data directories and generate a distinct ECDSA consensus account and BLS account for each node. Use the pinned Auvra BSC-derived client:
+For an experimental single-host testnet, create four separate node data directories and generate three distinct ECDSA accounts (consensus signer, fee recipient and BSC fee recipient) plus one BLS account for each node. Use the pinned Auvra BSC-derived client:
 
 ```bash
 for n in 1 2 3 4; do
