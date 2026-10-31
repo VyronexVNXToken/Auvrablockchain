@@ -27,7 +27,7 @@ class ValidatorInputTests(unittest.TestCase):
         (root / "scripts").mkdir()
         (root / "config").mkdir()
         upstream = root / "upstream"
-        upstream.mkdir()
+        (upstream / "scripts").mkdir(parents=True)
         shutil.copy2(SOURCE, root / "scripts" / SOURCE.name)
         (root / "config" / "validators.testnet.conf").write_text(
             "# test fixture\n" + "\n".join(lines) + "\n"
