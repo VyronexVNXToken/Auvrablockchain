@@ -21,8 +21,10 @@ jobs:
           code=$?
           set -e
           if [ "$code" -ne 2 ] && [ "$code" -ne 0 ]; then exit "$code"; fi
+      - name: Test validator input validation
+        run: python3 -m unittest discover -s tests -v
       - name: Compile Python scripts
-        run: python3 -m py_compile scripts/validate-network.py scripts/render-genesis-inputs.py
+        run: python3 -m py_compile scripts/validate-network.py scripts/render-genesis-inputs.py tests/test_validator_inputs.py
       - name: Check shell scripts
         run: |
           bash -n scripts/bootstrap-upstream.sh
