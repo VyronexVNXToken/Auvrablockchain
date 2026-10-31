@@ -1,0 +1,12 @@
+{
+  "name": "Auvra",
+  "nativeCurrency": {"name": "Auvra", "symbol": "AUR", "decimals": 18},
+  "consensus": "parlia",
+  "execution": "evm",
+  "launchSequence": ["testnet", "mainnet"],
+  "chainIds": {"testnet": null, "mainnet": null},
+  "network": {"p2pPort": 30303, "httpRpcPort": 8545, "websocketRpcPort": 8546},
+  "validators": {"initialCount": null, "addresses": []},
+  "genesis": {"generated": false, "sha256": null, "approved": false},
+  "status": "configuration-pending"
+}
