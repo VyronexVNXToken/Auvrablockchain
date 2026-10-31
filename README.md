@@ -33,6 +33,9 @@ Selected chain IDs: Testnet `52101` (`0xcb85`) and Mainnet `52100` (`0xcb84`). V
 - `docs/VALIDATOR_ONBOARDING.md` — consensus/BLS key onboarding, operator independence and validator-set review.
 - `docs/VALIDATOR_OPERATOR_ATTESTATION.md` — per-operator independence, key-possession and operations attestation template.
 - `docs/TESTNET_GENESIS.md` — explicit Auvra testnet genesis generation and node initialization.
+- `docs/LOCAL_TESTNET.md` — local testnet identity generation, genesis preparation, node initialization and private RPC startup.
+- `scripts/start-rpc-node.sh` — starts an initialized Auvra full node with loopback-only HTTP/WS RPC by default.
+- `config/node-rpc.env.example` — safe local RPC defaults.
 
 ## Build the client
 
