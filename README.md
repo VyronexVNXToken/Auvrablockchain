@@ -19,7 +19,7 @@
 | Rollout | Testnet, then Mainnet |
 | Client foundation | BNB Chain BSC |
 
-Chain IDs, validator set, allocations, block parameters and bootnodes remain to be approved. These are consensus-critical settings; this project will not silently guess them.
+Selected chain IDs: Testnet `52101` (`0xcb85`) and Mainnet `52100` (`0xcb84`). Validator set, allocations, block parameters and bootnodes remain to be approved. These are consensus-critical settings; this project will not silently guess them.
 
 ## Repository contents
 
