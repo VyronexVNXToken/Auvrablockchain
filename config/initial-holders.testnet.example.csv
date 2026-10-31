@@ -1,0 +1,4 @@
+# address,balance_wei
+# Replace with approved public testnet faucet/treasury addresses and AUR allocations in wei.
+# Example format only (not a real allocation):
+# 0x1111111111111111111111111111111111111111,100000000000000000000000
