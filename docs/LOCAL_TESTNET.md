@@ -75,10 +75,10 @@ Each node gets its own persistent data directory. Back up the generated keystore
 Once the genesis validator set includes the address, a discovery bootnode is reachable, and the node has been initialized, start a validator using its own consensus account password file:
 
 ```bash
-AUVRA_DATA_DIR="$PWD/.local-testnet/node1" \\
-AUVRA_VALIDATOR_ADDRESS=0xYOUR_NODE1_CONSENSUS_ADDRESS \\
-AUVRA_PASSWORD_FILE=/secure/path/node1-account-password.txt \\
-AUVRA_BOOTNODES='enode://BOOTNODE_PUBLIC_KEY@BOOTNODE_HOST:30303' \\
+AUVRA_DATA_DIR="$PWD/.local-testnet/node1" \
+AUVRA_VALIDATOR_ADDRESS=0xYOUR_NODE1_CONSENSUS_ADDRESS \
+AUVRA_PASSWORD_FILE=/secure/path/node1-account-password.txt \
+AUVRA_BOOTNODES='enode://BOOTNODE_PUBLIC_KEY@BOOTNODE_HOST:30303' \
   ./scripts/start-validator-node.sh
 ```
 
