@@ -28,3 +28,4 @@ jobs:
           bash -n scripts/bootstrap-upstream.sh
           bash -n scripts/prepare-genesis-tooling.sh
           bash -n scripts/prepare-testnet-genesis.sh
+          bash -n scripts/init-node.sh
