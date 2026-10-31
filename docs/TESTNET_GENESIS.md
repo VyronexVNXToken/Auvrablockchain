@@ -22,8 +22,9 @@ cp config/initial-holders.testnet.example.csv config/initial-holders.testnet.csv
 
 Set approved parameters:
 ```sh
-export AUVRA_TESTNET_CHAIN_ID=<approved-unique-id>
 export AUVRA_SYSTEM_ADMIN_ADDRESS=0x<20-byte-address>
+# The script reads chainIds.testnet (52101) from config/auvra-network.json by default.
+# Only set AUVRA_TESTNET_CHAIN_ID when it exactly matches that configured value.
 ./scripts/prepare-testnet-genesis.sh
 ```
 
