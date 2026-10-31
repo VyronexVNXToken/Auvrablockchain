@@ -31,3 +31,5 @@ jobs:
           bash -n scripts/prepare-genesis-tooling.sh
           bash -n scripts/prepare-testnet-genesis.sh
           bash -n scripts/init-node.sh
+          bash -n scripts/start-rpc-node.sh
+          bash -n scripts/start-validator-node.sh
