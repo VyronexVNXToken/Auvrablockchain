@@ -75,5 +75,67 @@ class ValidatorInputTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("distinct BLS public key", result.stderr)
 
-if __name__ == "__main__":
+
+    def test_reject_less_than_four_validators(self):
+        result = self.run_renderer(records()[:3])
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("At least four validator entries", result.stderr)
+
+    def test_reject_malformed_bls_key_length(self):
+        rows = records()
+        fields = rows[0].split(",")
+        fields[5] = "ab" * 47
+        rows[0] = ",".join(fields)
+        result = self.run_renderer(rows)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("BLS public key must be 48-byte hex", result.stderr)
+
+    def test_reject_wrong_validator_field_count(self):
+        rows = records()
+        rows[0] = ",".join(rows[0].split(",")[:5])
+        result = self.run_renderer(rows)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("expected 6 fields", result.stderr)
+
+    def test_reject_chain_id_outside_uint16(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        (root / "scripts").mkdir()
+        (root / "config").mkdir()
+        upstream = root / "upstream"
+        upstream.mkdir()
+        shutil.copy2(SOURCE, root / "scripts" / SOURCE.name)
+        (root / "config" / "validators.testnet.conf").write_text("\\n".join(records()) + "\\n")
+        (root / "config" / "initial-holders.testnet.csv").write_text(
+            "0x" + "f" * 40 + ",1000000000000000000\\n"
+        )
+        result = subprocess.run(
+            ["python3", str(root / "scripts" / SOURCE.name), str(upstream), "65536"],
+            text=True, capture_output=True, check=False
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("must fit uint16", result.stderr)
+
+    def test_reject_duplicate_holder_address(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        (root / "scripts").mkdir()
+        (root / "config").mkdir()
+        upstream = root / "upstream"
+        upstream.mkdir()
+        shutil.copy2(SOURCE, root / "scripts" / SOURCE.name)
+        (root / "config" / "validators.testnet.conf").write_text("\\n".join(records()) + "\\n")
+        holder = "0x" + "f" * 40
+        (root / "config" / "initial-holders.testnet.csv").write_text(
+            f"{holder},1000000000000000000\\n{holder},2000000000000000000\\n"
+        )
+        result = subprocess.run(
+            ["python3", str(root / "scripts" / SOURCE.name), str(upstream), "52101"],
+            text=True, capture_output=True, check=False
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Duplicate initial holder address", result.stderr)
+\nif __name__ == "__main__":
     unittest.main()
