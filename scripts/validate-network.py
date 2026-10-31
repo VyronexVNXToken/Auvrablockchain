@@ -14,6 +14,7 @@ ids = c.get("chainIds", {})
 for n in ("testnet","mainnet"):
     v=ids.get(n)
     if v is not None and (not isinstance(v,int) or isinstance(v,bool) or v <= 0): fail(f"{n} chain ID must be a positive integer")
+if ids.get("testnet") is not None and ids.get("testnet") > 65535: fail("testnet chain ID must fit the current BSC Parlia system-contract uint16 field (1..65535)")
 if ids.get("testnet") is not None and ids.get("testnet")==ids.get("mainnet"): fail("testnet and mainnet IDs must differ")
 validators=c.get("validators",{}).get("addresses",[])
 for a in validators:
