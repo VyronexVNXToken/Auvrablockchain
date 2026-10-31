@@ -31,7 +31,9 @@ For an experimental single-host testnet, create four separate node data director
 ```bash
 for n in 1 2 3 4; do
   mkdir -p ".local-testnet/node$n"
-  .build/bsc/build/bin/geth account new --datadir ".local-testnet/node$n"
+  for role in consensus fee bscfee; do
+    .build/bsc/build/bin/geth account new --datadir ".local-testnet/node$n"
+  done
   .build/bsc/build/bin/geth bls account new --datadir ".local-testnet/node$n"
   .build/bsc/build/bin/geth bls account list --datadir ".local-testnet/node$n"
 done
