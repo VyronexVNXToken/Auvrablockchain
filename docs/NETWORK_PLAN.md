@@ -15,7 +15,7 @@ The official BNB Chain genesis-contract repository documents the process: instal
 Repository: https://github.com/bnb-chain/bsc-genesis-contract
 
 ## Testnet decisions required
-1. Select a unique chain ID and check for collisions.
+1. Use the proposed Auvra Testnet chain ID `52101` (`0xcb85`) and Mainnet chain ID `52100` (`0xcb84`); complete a final registry/collision review before public launch.
 2. Select separate validator operators and gather public validator addresses.
 3. Decide initial AUR test allocations and faucet policy.
 4. Approve block interval, gas limit, epoch/validator rotation and fork schedule.
