@@ -4,7 +4,7 @@ This is a deliberate, explicit genesis workflow. It uses the official BNB Chain 
 
 ## Required operator inputs
 
-1. A collision-checked testnet chain ID in the range 1..65535. The current upstream genesis generator writes a `uint16` BSC system chain ID, so the wrapper enforces that bound.
+1. The selected Auvra testnet chain ID `52101` (`0xcb85`), pending final collision review, in the supported range 1..65535. The current upstream genesis generator writes a `uint16` BSC system chain ID, so the wrapper enforces that bound.
 2. At least four independent public validator records in `config/validators.testnet.conf`, format:
    `consensusAddress,feeAddress,bscFeeAddress,votingPower,bLSPublicKeyHex`
 3. At least one approved faucet/treasury balance in `config/initial-holders.testnet.csv`, format `address,balance_wei`.
