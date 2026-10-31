@@ -4,7 +4,13 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 GETH_BIN="${AUVRA_GETH_BIN:-$ROOT/.build/bsc/build/bin/geth}"
 DATA_DIR="${AUVRA_DATA_DIR:?Set AUVRA_DATA_DIR to an initialized persistent node data directory}"
-NETWORK_ID="${AUVRA_NETWORK_ID:-52101}"
+CONFIG="$ROOT/config/auvra-network.json"
+EXPECTED_NETWORK_ID="$(python3 - "$CONFIG" <<'PY'
+import json,sys
+print(json.load(open(sys.argv[1]))["chainIds"]["testnet"])
+PY
+)"
+NETWORK_ID="${AUVRA_NETWORK_ID:-$EXPECTED_NETWORK_ID}"
 P2P_PORT="${AUVRA_P2P_PORT:-30303}"
 RPC_BIND="${AUVRA_RPC_BIND:-127.0.0.1}"
 HTTP_PORT="${AUVRA_HTTP_PORT:-8545}"
@@ -14,7 +20,12 @@ CACHE_MIB="${AUVRA_CACHE_MIB:-2048}"
 [[ -x "$GETH_BIN" ]] || { echo "Missing BSC-derived geth binary: $GETH_BIN" >&2; exit 2; }
 [[ -d "$DATA_DIR/geth/chaindata" ]] || { echo "Node datadir is not initialized. Run scripts/init-node.sh first." >&2; exit 2; }
 [[ "$NETWORK_ID" =~ ^[0-9]+$ ]] || { echo "AUVRA_NETWORK_ID must be numeric." >&2; exit 2; }
+[[ "$NETWORK_ID" == "$EXPECTED_NETWORK_ID" ]] || { echo "Network ID $NETWORK_ID does not match configured Auvra testnet ID $EXPECTED_NETWORK_ID." >&2; exit 2; }
 [[ "$P2P_PORT" =~ ^[0-9]+$ && "$HTTP_PORT" =~ ^[0-9]+$ && "$WS_PORT" =~ ^[0-9]+$ ]] || { echo "Ports must be numeric." >&2; exit 2; }
+for port in "$P2P_PORT" "$HTTP_PORT" "$WS_PORT"; do
+  (( port >= 1 && port <= 65535 )) || { echo "Ports must be in range 1..65535." >&2; exit 2; }
+done
+[[ "$HTTP_PORT" != "$WS_PORT" ]] || { echo "HTTP and WebSocket RPC ports must be different." >&2; exit 2; }
 
 if [[ "$RPC_BIND" == "0.0.0.0" || "$RPC_BIND" == "::" ]]; then
   echo "WARNING: RPC is being bound to all interfaces. Put it behind a firewall and TLS reverse proxy." >&2
