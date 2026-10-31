@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CHAIN_ID="${AUVRA_TESTNET_CHAIN_ID:?Set AUVRA_TESTNET_CHAIN_ID to an approved, collision-checked chain ID (1..65535)}"
+CONFIG="$ROOT/config/auvra-network.json"
+CONFIG_CHAIN_ID="$(python3 - "$CONFIG" <<'PY'
+import json,sys
+print(json.load(open(sys.argv[1]))["chainIds"]["testnet"] or "")
+PY
+)"
+CHAIN_ID="${AUVRA_TESTNET_CHAIN_ID:-$CONFIG_CHAIN_ID}"
+[[ -n "$CHAIN_ID" ]] || { echo "Set chainIds.testnet in config/auvra-network.json first." >&2; exit 2; }
+[[ "$CHAIN_ID" == "$CONFIG_CHAIN_ID" ]] || { echo "AUVRA_TESTNET_CHAIN_ID must match config/auvra-network.json ($CONFIG_CHAIN_ID)." >&2; exit 2; }
 ADMIN="${AUVRA_SYSTEM_ADMIN_ADDRESS:?Set AUVRA_SYSTEM_ADMIN_ADDRESS to a reviewed testnet system-contract protector address}"
 GENESIS_COMMIT="${AUVRA_GENESIS_TOOLING_COMMIT:-84641812a013eda1593e058aeed4dc116c7746eb}"
 BSC_COMMIT="${AUVRA_BSC_COMMIT:-947ba1cb1ef05d4a5f71b738113a3d8b4c16f6b7}"
