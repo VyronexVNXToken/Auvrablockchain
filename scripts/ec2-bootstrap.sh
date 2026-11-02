@@ -70,7 +70,17 @@ gcc --version | head -n1
 make --version | head -n1
 
 echo "[Auvra] Validating Auvra network configuration..."
+set +e
 python3 scripts/validate-network.py
+VALIDATION_STATUS=$?
+set -e
+if [[ "$VALIDATION_STATUS" -ne 0 && "$VALIDATION_STATUS" -ne 2 ]]; then
+  echo "Auvra network configuration has structural errors; stopping before build." >&2
+  exit "$VALIDATION_STATUS"
+fi
+if [[ "$VALIDATION_STATUS" -eq 2 ]]; then
+  echo "[Auvra] Configuration is structurally valid but genesis/validator launch gates remain pending."
+fi
 
 echo "[Auvra] Building pinned BSC-derived execution client..."
 export BSC_VERSION="${BSC_VERSION:-v1.8.1}"
