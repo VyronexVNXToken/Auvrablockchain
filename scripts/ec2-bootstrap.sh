@@ -84,7 +84,7 @@ fi
 
 echo "[Auvra] Building pinned BSC-derived execution client..."
 export BSC_VERSION="${BSC_VERSION:-v1.8.1}"
-./scripts/bootstrap-upstream.sh
+bash scripts/bootstrap-upstream.sh
 
 GETH="$ROOT/.build/bsc/build/bin/geth"
 test -x "$GETH"
