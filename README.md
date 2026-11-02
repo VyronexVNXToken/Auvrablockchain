@@ -81,3 +81,22 @@ Never commit validator private keys, keystores, JWT secrets or production enviro
 - [BSC genesis contracts](https://github.com/bnb-chain/bsc-genesis-contract)
 - [BSC node deployment tooling](https://github.com/bnb-chain/node-deploy)
 - [BSC documentation](https://docs.bnbchain.org/)
+
+
+## AWS EC2 Ubuntu preparation
+
+On an Ubuntu 24.04 EC2 host, clone the repository and run the bootstrap as the
+non-root `ubuntu` user:
+
+```bash
+git clone https://github.com/VyronexVNXToken/Auvrablockchain.git
+cd Auvrablockchain
+chmod +x scripts/ec2-bootstrap.sh
+./scripts/ec2-bootstrap.sh
+```
+
+The script installs build dependencies, ensures Go 1.25 is available, validates
+the network configuration, builds the pinned BSC-derived client, and prepares
+a persistent data directory at `/home/ubuntu/auvra-validator/data`. It requires
+at least 80 GiB free disk before building. It does not generate genesis, create
+validator keys, or start validator signing. Keep RPC ports private.
